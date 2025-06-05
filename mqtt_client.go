@@ -219,3 +219,12 @@ func (m *MqttClient) SubscribeToTopics(topics []string, callback mqtt.MessageHan
 	token.Wait()
 	return nil
 }
+
+// UnsubscribeFromTopics Unsubscribe from topics
+// Assuming that the MQTT client is already connected to the broker
+func (m *MqttClient) UnsubscribeFromTopics(topics []string) error {
+	if token := m.Client.Unsubscribe(topics...); token.Wait() && token.Error() != nil {
+		return token.Error()
+	}
+	return nil
+}
