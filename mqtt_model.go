@@ -28,9 +28,9 @@ type MqttCredentialsResponse struct {
 	Data    MqttConnectionConfig `json:"data"`
 }
 
-// MqttOpenQuotaMessage represents a message retrieved from the (/quota) MQTT topic
+// MqttOpenMessage represents a message retrieved from the (/quota or /status) MQTT topic
 // Params map is a key/value map where key is parameter name and value is its value, can be empty or nil
-type MqttOpenQuotaMessage struct {
+type MqttOpenMessage struct {
 	Id      int64                  `json:"cmdId"`
 	CmdFunc int64                  `json:"cmdFunc"`
 	Addr    string                 `json:"addr"`
