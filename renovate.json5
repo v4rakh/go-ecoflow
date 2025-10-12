@@ -14,18 +14,17 @@
     "main"
   ],
   "extends": [
-    "config:recommended",
-    ":rebaseStalePrs",
     ":ignoreUnstable",
+    ":rebaseStalePrs",
+    "config:recommended",
     "group:monorepos",
     "group:recommended",
-    "schedule:weekends",
-    "schedule:automergeWeekends",
     "local>msm/renovate-presets//presets/github-actions-ignore.json",
     "local>msm/renovate-presets//presets/go-ignore-manager.json",
     "local>msm/renovate-presets//presets/go-major.json",
     "local>msm/renovate-presets//presets/go-minor-automerge.json",
-    "local>msm/renovate-presets//presets/go-patch-automerge.json"
+    "local>msm/renovate-presets//presets/go-patch-automerge.json",
+    "schedule:nonOfficeHours"
   ],
   "postUpdateOptions": [
     "gomodTidy",
