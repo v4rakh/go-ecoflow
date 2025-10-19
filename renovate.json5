@@ -1,19 +1,17 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "prConcurrentLimit": 0,
-  "osvVulnerabilityAlerts": true,
-  "dependencyDashboardOSVVulnerabilitySummary": "all",
-  "rangeStrategy": "pin",
-  "automerge": false,
-  "branchPrefix": "renovate/",
-  "separateMajorMinor": true,
-  "separateMultipleMajor": false,
-  "separateMultipleMinor": false,
-  "separateMinorPatch": true,
-  "baseBranches": [
-    "main"
-  ],
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  prConcurrentLimit: 0,
+  osvVulnerabilityAlerts: true,
+  dependencyDashboardOSVVulnerabilitySummary: "all",
+  rangeStrategy: "pin",
+  automerge: false,
+  branchPrefix: "renovate/",
+  separateMajorMinor: true,
+  separateMultipleMajor: false,
+  separateMultipleMinor: false,
+  separateMinorPatch: true,
+  baseBranchPatterns: ["main"],
+  extends: [
     ":ignoreUnstable",
     ":rebaseStalePrs",
     "config:recommended",
@@ -22,12 +20,10 @@
     "local>msm/renovate-presets//presets/github-actions-ignore.json",
     "local>msm/renovate-presets//presets/go-ignore-manager.json",
     "local>msm/renovate-presets//presets/go-major.json",
-    "local>msm/renovate-presets//presets/go-minor-automerge.json",
-    "local>msm/renovate-presets//presets/go-patch-automerge.json",
-    "schedule:nonOfficeHours"
+    "local>msm/renovate-presets//presets/go-minor-group-automerge.json",
+    "local>msm/renovate-presets//presets/go-patch-group-automerge.json",
+    "schedule:nonOfficeHours",
+    "schedule:automergeNonOfficeHours",
   ],
-  "postUpdateOptions": [
-    "gomodTidy",
-    "gomodTidyE"
-  ]
+  postUpdateOptions: ["gomodTidy", "gomodTidyE"],
 }
