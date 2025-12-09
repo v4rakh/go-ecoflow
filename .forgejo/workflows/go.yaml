@@ -7,11 +7,11 @@ jobs:
     container:
       image: git.myservermanager.com/msm/executor-ubuntu-build-essential:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         name: Checkout
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version: '^1.24'
 
