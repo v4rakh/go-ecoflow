@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -30,7 +30,7 @@ const (
 	PowerStationPvChargeTypeAdapter PowerStationPvChargeType = 2
 )
 
-//MPPT parameters
+// MPPT parameters
 
 func (s *PowerStation) SetBuzzerSilentMode(ctx context.Context, enabled SettingSwitcher) (*CmdSetResponse, error) {
 	params := getParamsEnabled(enabled)
@@ -181,7 +181,7 @@ func (s *PowerStation) SetAcAlwaysOn(ctx context.Context, enabled SettingSwitche
 	return s.setParameter(ctx, "acAutoOutConfig", ModuleTypePd, params)
 }
 
-//BMS parameters
+// BMS parameters
 
 // SetMaxChargeSoC UPS settings(UPS, upper SoC limit when charging)
 // { "id":123456789, "version":"1.0", "sn":"R331ZEB4ZEAL0528", "moduleType":2, "operateType":"upsConfig", "params":{ "maxChgSoc":50 } }
@@ -237,7 +237,7 @@ func (s *PowerStation) GetAllParameters(ctx context.Context) (map[string]interfa
 
 func (s *PowerStation) setParameter(ctx context.Context, opType string, modType ModuleType, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:          fmt.Sprint(time.Now().UnixMilli()),
+		Id:          strconv.FormatInt(time.Now().UnixMilli(), 10),
 		OperateType: opType,
 		ModuleType:  modType,
 		Sn:          s.sn,

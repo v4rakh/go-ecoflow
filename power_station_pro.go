@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -193,7 +193,7 @@ func (s *PowerStationPro) GetAllParameters(ctx context.Context) (map[string]inte
 
 func (s *PowerStationPro) setParameter(ctx context.Context, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:     fmt.Sprint(time.Now().UnixMilli()),
+		Id:     strconv.FormatInt(time.Now().UnixMilli(), 10),
 		Sn:     s.sn,
 		Params: params,
 	}

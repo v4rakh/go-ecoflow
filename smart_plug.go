@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -51,7 +51,7 @@ func (s *SmartPlug) DeleteScheduledTasks(ctx context.Context, taskIndex int) (*C
 
 func (s *SmartPlug) setParameter(ctx context.Context, cmdCode string, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:      fmt.Sprint(time.Now().UnixMilli()),
+		Id:      strconv.FormatInt(time.Now().UnixMilli(), 10),
 		CmdCode: cmdCode,
 		Sn:      s.sn,
 		Params:  params,

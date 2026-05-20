@@ -7,11 +7,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/google/uuid"
 	"io"
 	"net/http"
 	"time"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/google/uuid"
 )
 
 const (
@@ -53,7 +54,7 @@ func NewOpenMqttClient(c *MqttConnectionConfig, config MqttClientConfiguration) 
 	if config.OnReconnect != nil {
 		opts.OnReconnecting = config.OnReconnect
 	}
-	//default value is 10 minutes
+	// default value is 10 minutes
 	if config.MaxReconnectInterval != 0 {
 		opts.MaxReconnectInterval = config.MaxReconnectInterval
 	}
@@ -88,7 +89,7 @@ func NewAppMqttClient(ctx context.Context, email string, password string, config
 	if config.OnReconnect != nil {
 		opts.OnReconnecting = config.OnReconnect
 	}
-	//default value is 10 minutes
+	// default value is 10 minutes
 	if config.MaxReconnectInterval != 0 {
 		opts.MaxReconnectInterval = config.MaxReconnectInterval
 	}
@@ -126,7 +127,7 @@ func getAppMqttCredentials(ctx context.Context, email, password string) (*MqttCo
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -176,7 +177,7 @@ func getLoginResponse(ctx context.Context, email string, password string) (*Mqtt
 		return nil, err
 	}
 
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {

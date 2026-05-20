@@ -3,7 +3,7 @@ package ecoflow
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -28,14 +28,14 @@ type powerKitSetCmdRequest struct {
 
 type PowerKitModuleType int
 
-//15362: BBC_IN
-//15363: BBC_OUT
-//15365: IC_LOW
-//0: BP5000/BP2000
-//15367: LD_AC
-//15368: LD_DC
-//15370: Wireless
-//6402: GEN (smart generator)
+// 15362: BBC_IN
+// 15363: BBC_OUT
+// 15365: IC_LOW
+// 0: BP5000/BP2000
+// 15367: LD_AC
+// 15368: LD_DC
+// 15370: Wireless
+// 6402: GEN (smart generator)
 
 const (
 	PowerKitModuleTypeBbcIn        PowerKitModuleType = 15362
@@ -81,7 +81,7 @@ func (k *PowerKit) SetChargingSettings(ctx context.Context, chgPause, maxChgCurr
 	return k.setParameter(ctx, "chgParaSet", PowerKitModuleTypeBbcIn, params)
 }
 
-//BBC_OUT
+// BBC_OUT
 
 // SetDischargingSettings Discharging settings(swSta: 0: off 1: on)
 // { "id": 123456789, "version": "1.0", "sn": "M106ZAB4Z000001F", "moduleSn": "M1093-DCIN-CA7C3", "moduleType": 15362, "operateType": "dischgParaSet", "params": { "swSta": 0 } }
@@ -138,7 +138,7 @@ func (k *PowerKit) SetGridPowerInPriority(ctx context.Context, dsgLowPwrEn, pfcD
 	return k.setParameter(ctx, "dsgIcParaSet", PowerKitModuleTypeIcLow, params)
 }
 
-//BP5000/BP2000
+// BP5000/BP2000
 
 // SetChargingUpperLimit Upper limit of charging (range: 50–100)
 // { "id": 123456789, "version": "1.0", "sn": "M106ZAB4Z000001F", "moduleSn": "0000000000000000", "moduleType": 0, "operateType": "socUpperLimit", "params": { "maxChgSoc": 80 } }
@@ -182,9 +182,9 @@ func (k *PowerKit) SetHeatingByDischarging(ctx context.Context, enable SettingSw
 
 // SetClearingChargingErrors Clearing charging errors (0: off, 1: on)
 // { "id": 123456789, "version": "1.0", "sn": "M106ZAB4Z000001F", "moduleSn": "0000000000000000", "moduleType": 0, "operateType": "clearError", "params": { "enable": 0 } }
-func (k *PowerKit) SetClearingChargingErrors(ctx context.Context, clear SettingSwitcher) (*CmdSetResponse, error) {
+func (k *PowerKit) SetClearingChargingErrors(ctx context.Context, enabled SettingSwitcher) (*CmdSetResponse, error) {
 	params := make(map[string]interface{})
-	params["enable"] = clear
+	params["enable"] = enabled
 	return k.setParameter(ctx, "clearError", PowerKitModuleTypeBp5000Bp2000, params)
 }
 
@@ -261,7 +261,7 @@ func (k *PowerKit) GetAllParameters(ctx context.Context) (map[string]interface{}
 
 func (k *PowerKit) setParameter(ctx context.Context, opType string, modType PowerKitModuleType, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := powerKitSetCmdRequest{
-		Id:          fmt.Sprint(time.Now().UnixMilli()),
+		Id:          strconv.FormatInt(time.Now().UnixMilli(), 10),
 		Sn:          k.sn,
 		ModuleSn:    k.moduleSn,
 		ModuleType:  modType,

@@ -14,5 +14,9 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Checkstyle
+        run: |
+          golangci-lint run
+
       - name: Test
         run: go test -v -race -shuffle on ./...

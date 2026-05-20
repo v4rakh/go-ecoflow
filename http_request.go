@@ -30,7 +30,7 @@ type HttpRequest struct {
 	requestParameters map[string]interface{}
 	accessKey         string
 	secretKey         string
-	getSignParameters func() *signParameters //required for unit testing
+	getSignParameters func() *signParameters // required for unit testing
 }
 
 // NewHttpRequest is a function that creates a new HttpRequest object with the provided parameters.
@@ -53,7 +53,7 @@ func NewHttpRequest(httpClient *http.Client, method string, uri string, params m
 		secretKey:         secretKey,
 	}
 
-	//required for unit testing
+	// required for unit testing
 	r.getSignParameters = func() *signParameters {
 		return r.generateSignParameters()
 	}
@@ -118,7 +118,7 @@ func (r *HttpRequest) Execute(ctx context.Context) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(fmt.Sprintf("response status is failed|url=%s, statusCode=%s", requestURI, resp.Status))
+		return nil, fmt.Errorf("response status is failed|url=%s, statusCode=%s", requestURI, resp.Status)
 	}
 	return io.ReadAll(resp.Body)
 }
@@ -179,7 +179,7 @@ func (r *HttpRequest) getKeyValueString(queryString string, nonce string, timest
 // See step 1 and step 2 here: https://developer-eu.ecoflow.com/us/document/generalInfo
 // This implementation uses a recursion to get all request parameters (even nested json structure) and creates an expected query string
 func generateQueryParams(data map[string]interface{}) string {
-	var result []string
+	var result []string //nolint:prealloc
 
 	// Process top-level map keys
 	for k, v := range data {
@@ -207,7 +207,7 @@ func generateQueryParams(data map[string]interface{}) string {
 // - float64: Append the key-value pair to the result slice after converting the float64 to a string.
 // - bool: Append the key-value pair to the result slice after converting the bool to a string.
 func processValue(prefix string, value interface{}) []string {
-	var result []string
+	var result []string //nolint:prealloc
 	switch v := value.(type) {
 	case map[string]interface{}:
 		for k, nestedValue := range v {
@@ -235,10 +235,11 @@ func processValue(prefix string, value interface{}) []string {
 
 // timestamp is a UTC timestamp (in nano)
 func generateTimestamp() string {
-	return fmt.Sprint(time.Now().UnixNano())
+	return strconv.FormatInt(time.Now().UnixNano(), 10)
 }
 
 // nonce is a random int with 6 digits
 func generateNonce() string {
+	// nolint:gosec
 	return strconv.Itoa(rand.Intn(900000) + 100000)
 }

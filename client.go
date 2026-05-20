@@ -45,7 +45,7 @@ const (
 )
 
 type Client struct {
-	httpClient  *http.Client //can be customized if required
+	httpClient  *http.Client // can be customized if required
 	accessToken string
 	secretToken string
 	baseUrl     string
@@ -171,7 +171,7 @@ func (c *Client) GetDeviceList(ctx context.Context) (*DeviceListResponse, error)
 	}
 
 	if deviceResponse.Code != "0" {
-		return &deviceResponse, errors.New(fmt.Sprintf("can't get device list, error code: %s, error message: %s", deviceResponse.Code, deviceResponse.Message))
+		return &deviceResponse, fmt.Errorf("can't get device list, error code: %s, error message: %s", deviceResponse.Code, deviceResponse.Message)
 	}
 	return &deviceResponse, nil
 }
@@ -313,7 +313,7 @@ func (c *Client) GetDeviceParameters(ctx context.Context, deviceSN string, param
 	}
 
 	if getCmdResponse.Code != "0" {
-		return getCmdResponse, errors.New(fmt.Sprintf("can't get parameters, error code %s", getCmdResponse.Code))
+		return getCmdResponse, fmt.Errorf("can't get parameters, error code %s", getCmdResponse.Code)
 	}
 
 	return getCmdResponse, nil
@@ -343,7 +343,7 @@ func (c *Client) GetDeviceAllParameters(ctx context.Context, deviceSn string) (m
 	}
 
 	if code, ok := jsonData["code"].(string); !ok || code != "0" {
-		return nil, errors.New(fmt.Sprintf("can't get parameters, error code %s", code))
+		return nil, fmt.Errorf("can't get parameters, error code %s", code)
 	}
 
 	dataMap, ok := jsonData["data"].(map[string]interface{})
@@ -370,7 +370,7 @@ func (c *Client) GetOpenSignCertification(ctx context.Context) (*MqttCredentials
 	}
 
 	if mqttCredentials.Code != "0" {
-		return nil, errors.New(fmt.Sprintf("can't get open sign certification, error code %s", mqttCredentials.Code))
+		return nil, fmt.Errorf("can't get open sign certification, error code %s", mqttCredentials.Code)
 	}
 
 	return mqttCredentials, err
@@ -436,7 +436,7 @@ func (c *Client) GetDeviceHistory(ctx context.Context, deviceSn string, beginTim
 	}
 
 	if getCmdResponse.Code != "0" {
-		return getCmdResponse, errors.New(fmt.Sprintf("can't get historical data, error code %s", getCmdResponse.Code))
+		return getCmdResponse, fmt.Errorf("can't get historical data, error code %s", getCmdResponse.Code)
 	}
 
 	return getCmdResponse, nil

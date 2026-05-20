@@ -3,7 +3,7 @@ package ecoflow
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -157,7 +157,7 @@ func (g *Glacier) GetAllParameters(ctx context.Context) (map[string]interface{},
 // internal function to generate a request for setting the parameters
 func (g *Glacier) setParameter(ctx context.Context, opType string, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:          fmt.Sprint(time.Now().UnixMilli()),
+		Id:          strconv.FormatInt(time.Now().UnixMilli(), 10),
 		OperateType: opType,
 		ModuleType:  ModuleTypePd,
 		Sn:          g.sn,

@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -65,7 +65,7 @@ func (s *SmartHomePanel) SetStandByChannelControl(ctx context.Context, ch, ctrlM
 	return s.setParameter(ctx, params)
 }
 
-//TODO: Split-phase information configuration
+// TODO: Split-phase information configuration
 // { "sn": "SP10ZAW5ZE9E0052", "operateType": "TCP", "params": { "cmdSet": 11, "id": 18, "cfgList": [ { "linkMark": 1, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 }, { "linkMark": 0, "linkCh": 0 } ] } }
 
 // SetChannelCurrentConfiguration Channel current configuration (cur: 6, 13, 16, 20, 30)
@@ -157,11 +157,11 @@ func (s *SmartHomePanel) SetRegionInformation(ctx context.Context, area string) 
 	return s.setParameter(ctx, params)
 }
 
-//TODO: Setting the emergency mode
+// TODO: Setting the emergency mode
 
-//TODO: Setting the scheduled charging job
+// TODO: Setting the scheduled charging job
 
-//TODO: Setting the scheduled discharging job
+// TODO: Setting the scheduled discharging job
 
 // SetConfigurationStatus Setting the configuration status
 // { "sn": "SP10ZAW5ZE9E0052", "operateType": "TCP", "params": { "cmdSet": 11, "id": 7, "cfgSta": 1 } }
@@ -210,7 +210,7 @@ func (s *SmartHomePanel) GetAllParameters(ctx context.Context) (map[string]inter
 
 func (s *SmartHomePanel) setParameter(ctx context.Context, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:          fmt.Sprint(time.Now().UnixMilli()),
+		Id:          strconv.FormatInt(time.Now().UnixMilli(), 10),
 		OperateType: "TCP",
 		Sn:          s.sn,
 		Params:      params,

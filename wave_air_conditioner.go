@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -184,7 +184,7 @@ func (c *WaveAirConditioner) GetAllParameters(ctx context.Context) (map[string]i
 
 func (c *WaveAirConditioner) setParameter(ctx context.Context, opType string, modType ModuleType, params map[string]interface{}) (*CmdSetResponse, error) {
 	cmdReq := CmdSetRequest{
-		Id:          fmt.Sprint(time.Now().UnixMilli()),
+		Id:          strconv.FormatInt(time.Now().UnixMilli(), 10),
 		OperateType: opType,
 		Sn:          c.sn,
 		Params:      params,
