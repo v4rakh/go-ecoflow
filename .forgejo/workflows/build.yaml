@@ -17,6 +17,7 @@ jobs:
 
       - name: Checkstyle
         run: |
+          nix develop --command bash -c "golangci-lint cache clean"
           nix develop --command bash -c "golangci-lint run"
 
       - name: Test
