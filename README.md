@@ -8,6 +8,9 @@ The fork is independent, git history is wiped and versions start from scratch.
 
 EcoFlow has officially expanded their open APIs, introducing support for their Open IoT MQTT protocol. In addition, the fork now includes access to PowerOcean’s historical data, enabling comprehensive monitoring and analysis of past energy usage and system performance.
 
+The main git repository is hosted at [https://git.myservermanager.com/varakh/go-ecoflow](https://git.myservermanager.com/varakh/go-ecoflow).
+Other repositories are mirrors and pull requests, issues, and planning are managed there.
+
 ## Releases
 
 Releases are done by simply setting a git tag prefixed with `v` on `main` branch.
